@@ -3,7 +3,6 @@ package alocacaodememoria;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Samuel
  */
 public class Frame {
