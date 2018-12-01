@@ -1,14 +1,16 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package alocacaodememoria;
 
 import java.util.logging.Logger;
 import javafx.scene.layout.StackPane;
 
-/**
- * @author Samuel
- */
 public class Processo {
-    int id,tamanho,tempoCriacao,tempoDuracao,tempoAlocado,tempoConclusao, posicaoInicio=0, posicaoFim=0, tamanhoFisico;
+    int id,tamanho, tempoCriacao, tempoDuracao, tempoAlocado, tempoConclusao;
+    int posInicio = 0, posFim = 0, tamFisico;
     int tempoEspera = (tempoConclusao - tempoCriacao);
     float porcentagem=0;
     String status;
@@ -21,7 +23,7 @@ public class Processo {
         this.tempoCriacao = tempoCriacao;
         this.tempoDuracao = tempoDuracao;
         this.porcentagem = porcentagem;
-        this.tamanhoFisico = tamanhoFisico;
+        this.tamFisico = tamFisico;
         this.status = status;
     }
     private static final Logger LOG = Logger.getLogger(Processo.class.getName());
@@ -98,12 +100,12 @@ public class Processo {
         this.status = status;
     }
 
-    public void setPosicaoInicio(int posicaoInicio) {
-        this.posicaoInicio = posicaoInicio;
+    public void setPosInicio(int posInicio) {
+        this.posInicio = posInicio;
     }
 
-    public void setPosicaoFim(int posicaoFim) {
-        this.posicaoFim = posicaoFim;
+    public void setPosFim(int posFim) {
+        this.posFim = posFim;
     }
     
     
