@@ -13,7 +13,7 @@ import javafx.scene.layout.StackPane;
  * @author Samuel
  */
 public class Processo {
-    int id,tamanho,tempoCriacao,tempoDuracao,tempoAlocado,tempoConclusao, posInicio=0, posFim=0, tamFisico;
+    int id,tamanho,tempoCriacao,tempoDuracao,tempoAlocado,tempoConclusao, posicaoInicio=0, posicaoFim=0, tamanhoFisico;
     int tempoEspera = (tempoConclusao - tempoCriacao);
     float porcentagem=0;
     String status;
@@ -26,7 +26,7 @@ public class Processo {
         this.tempoCriacao = tempoCriacao;
         this.tempoDuracao = tempoDuracao;
         this.porcentagem = porcentagem;
-        this.tamFisico = tamFisico;
+        this.tamanhoFisico = tamanhoFisico;
         this.status = status;
     }
     private static final Logger LOG = Logger.getLogger(Processo.class.getName());
@@ -103,12 +103,12 @@ public class Processo {
         this.status = status;
     }
 
-    public void setPosInicio(int posInicio) {
-        this.posInicio = posInicio;
+    public void setPosicaoInicio(int posicaoInicio) {
+        this.posicaoInicio = posicaoInicio;
     }
 
-    public void setPosFim(int posFim) {
-        this.posFim = posFim;
+    public void setPosicaoFim(int posicaoFim) {
+        this.posicaoFim = posicaoFim;
     }
     
     
