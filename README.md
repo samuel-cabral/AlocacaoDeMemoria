@@ -1,2 +1,2 @@
 # AlocacaoDeMemoria
-Simulador de Estratégia de Alocação de Memmória
+Simulador de Estratégias de Alocação de Memmória
