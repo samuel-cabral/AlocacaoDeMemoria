@@ -8,6 +8,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class AlocacaoDeMemoria extends Application {
+
+    static void render_process_table(Stage stage) {
+        
+    }
     
     @Override
     public void start(Stage stage) throws Exception {

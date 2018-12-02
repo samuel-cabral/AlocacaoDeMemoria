@@ -1,6 +1,7 @@
 
 package alocacaodememoria;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,12 +12,14 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -28,6 +31,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 
 public class FXMLDocumentController implements Initializable {
@@ -85,36 +89,6 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private RadioButton worstFit;
-
-    @FXML
-    private TableView<?> tabProcessos;
-
-    @FXML
-    private TableColumn<?, ?> colId;
-
-    @FXML
-    private TableColumn<?, ?> colTamanho;
-
-    @FXML
-    private TableColumn<?, ?> colPorcent;
-
-    @FXML
-    private TableColumn<?, ?> colDuracao;
-
-    @FXML
-    private TableColumn<?, ?> colInstCriado;
-
-    @FXML
-    private TableColumn<?, ?> colInstAlocado;
-
-    @FXML
-    private TableColumn<?, ?> colInstConcluido;
-
-    @FXML
-    private TableColumn<?, ?> colTEspera;
-
-    @FXML
-    private TableColumn<?, ?> colStatus;
     
     ToggleGroup grupoMetodos = new ToggleGroup();
     
@@ -126,7 +100,32 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    void iniciar() {
+    void iniciar() throws IOException {
+        render_process_table();
+        disable_ui_controllers();
+    }
+    
+    void render_process_table() throws IOException {
+        Parent root;
+        root = FXMLLoader.load(getClass().getResource("ProcessTable.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Tabela de processos");
+        stage.setResizable(false);
+        stage.setScene(new Scene(root, 684, 539));
+        stage.show();
 
+    }
+    
+    void disable_ui_controllers() {
+        iniciarSimulacao.setDisable(true);
+        tamMem.setDisable(true);
+        tamSO.setDisable(true);
+        tamProc1.setDisable(true);
+        tamProc2.setDisable(true);
+        tCriacao1.setDisable(true);
+        tCriacao2.setDisable(true);
+        tDuracao1.setDisable(true);
+        tDuracao2.setDisable(true);
+        qteProcessos.setDisable(true);
     }
 }
