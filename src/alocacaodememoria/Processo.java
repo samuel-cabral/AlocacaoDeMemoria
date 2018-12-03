@@ -5,28 +5,26 @@
  */
 package alocacaodememoria;
 
-import java.util.logging.Logger;
 import javafx.scene.layout.StackPane;
 
 public class Processo {
-    int id,tamanho, tempoCriacao, tempoDuracao, tempoAlocado, tempoConclusao;
-    int posInicio = 0, posFim = 0, tamFisico;
-    int tempoEspera = (tempoConclusao - tempoCriacao);
-    float porcentagem=0;
+    int id, tamanho, instCriado, tempoDuracao, instAlocado, instConclusao;
+    int posicaoInicio = 0, posicaoFim = 0, tamFisico;
+    int tempoEspera = (instConclusao - instCriado);
+    float porcentagem = 0;
     String status;
     Frame frame;
     StackPane desenho;
 
-    public Processo(int id, int tamanho, int tempoCriacao, int tempoDuracao, int tamFisico, String status) {
+    public Processo(int id, int tamanho, int criado, int duracao, int tamFisico, float porcentagem, String status) {
         this.id = id;
         this.tamanho = tamanho;
-        this.tempoCriacao = tempoCriacao;
-        this.tempoDuracao = tempoDuracao;
-        this.porcentagem = porcentagem;
+        this.instCriado = criado;
+        this.tempoDuracao = duracao;
         this.tamFisico = tamFisico;
+        this.porcentagem = porcentagem;
         this.status = status;
     }
-    private static final Logger LOG = Logger.getLogger(Processo.class.getName());
 
     public int getId() {
         return id;
@@ -44,36 +42,36 @@ public class Processo {
         this.tamanho = tamanho;
     }
 
-    public int getTempoCriacao() {
-        return tempoCriacao;
+    public int getInstCriado() {
+        return instCriado;
     }
 
-    public void setTempoCriacao(int tempoCriacao) {
-        this.tempoCriacao = tempoCriacao;
+    public void setInstCriado(int criado) {
+        this.instCriado = criado;
     }
 
     public int getTempoDuracao() {
         return tempoDuracao;
     }
 
-    public void setTempoDuracao(int tempoDuracao) {
-        this.tempoDuracao = tempoDuracao;
+    public void setTempoDuracao(int duracao) {
+        this.tempoDuracao = duracao;
     }
 
-    public int getTempoAlocado() {
-        return tempoAlocado;
+    public int getInstAlocado() {
+        return instAlocado;
     }
 
-    public void setTempoAlocado(int tempoAlocado) {
-        this.tempoAlocado = tempoAlocado;
+    public void setInstAlocado(int alocado) {
+        this.instAlocado = alocado;
     }
 
-    public int getTempoConclusao() {
-        return tempoConclusao;
+    public int getInstConclusao() {
+        return instConclusao;
     }
 
-    public void setTempoConclusao(int tempoConclusao) {
-        this.tempoConclusao = tempoConclusao;
+    public void setInstConclusao(int conclusao) {
+        this.instConclusao = conclusao;
     }
 
     public int getTempoEspera() {
@@ -88,8 +86,8 @@ public class Processo {
         return porcentagem;
     }
 
-    public void setPorcentagem(float porcentagem) {
-        this.porcentagem = porcentagem;
+    public void setPorcentagem(float porc) {
+        this.porcentagem = porc;
     }
 
     public String getStatus() {
@@ -100,12 +98,12 @@ public class Processo {
         this.status = status;
     }
 
-    public void setPosInicio(int posInicio) {
-        this.posInicio = posInicio;
+    public void setPosicaoInicio(int posInicio) {
+        this.posicaoInicio = posInicio;
     }
 
-    public void setPosFim(int posFim) {
-        this.posFim = posFim;
+    public void setPosicaoFim(int posFim) {
+        this.posicaoFim = posFim;
     }
     
     

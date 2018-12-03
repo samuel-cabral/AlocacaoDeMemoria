@@ -15,16 +15,16 @@
 
 <AnchorPane id="AnchorPane" prefHeight="539.0" prefWidth="1282.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alocacaodememoria.FXMLDocumentController">
    <children>
-      <Pane prefHeight="539.0" prefWidth="600.0">
+      <Pane fx:id="paneMem" prefHeight="539.0" prefWidth="600.0">
          <children>
-            <TextField fx:id="tamMem" layoutX="131.0" layoutY="302.0" prefHeight="25.0" prefWidth="55.0" />
-            <TextField fx:id="tamSO" layoutX="261.0" layoutY="302.0" prefHeight="25.0" prefWidth="55.0" />
-            <TextField fx:id="tamProc1" layoutX="193.0" layoutY="346.0" prefHeight="25.0" prefWidth="55.0" />
-            <TextField fx:id="tamProc2" layoutX="251.0" layoutY="346.0" prefHeight="25.0" prefWidth="55.0" />
-            <TextField fx:id="tCriacao1" layoutX="193.0" layoutY="393.0" prefHeight="25.0" prefWidth="55.0" />
-            <TextField fx:id="tCriacao2" layoutX="251.0" layoutY="393.0" prefHeight="25.0" prefWidth="55.0" />
-            <TextField fx:id="tDuracao1" layoutX="193.0" layoutY="442.0" prefHeight="25.0" prefWidth="55.0" />
-            <TextField fx:id="tDuracao2" layoutX="251.0" layoutY="442.0" prefHeight="25.0" prefWidth="55.0" />
+            <TextField fx:id="tamMem" layoutX="131.0" layoutY="302.0" prefHeight="25.0" prefWidth="55.0" text="4000" />
+            <TextField fx:id="tamSO" layoutX="261.0" layoutY="302.0" prefHeight="25.0" prefWidth="55.0" text="500" />
+            <TextField fx:id="tamProc1" layoutX="193.0" layoutY="346.0" prefHeight="25.0" prefWidth="55.0" text="50" />
+            <TextField fx:id="tamProc2" layoutX="251.0" layoutY="346.0" prefHeight="25.0" prefWidth="55.0" text="400" />
+            <TextField fx:id="tCriacao1" layoutX="193.0" layoutY="393.0" prefHeight="25.0" prefWidth="55.0" text="10" />
+            <TextField fx:id="tCriacao2" layoutX="251.0" layoutY="393.0" prefHeight="25.0" prefWidth="55.0" text="30" />
+            <TextField fx:id="tDuracao1" layoutX="193.0" layoutY="442.0" prefHeight="25.0" prefWidth="55.0" text="10" />
+            <TextField fx:id="tDuracao2" layoutX="251.0" layoutY="442.0" prefHeight="25.0" prefWidth="55.0" text="100" />
             <Label layoutX="94.0" layoutY="282.0" text="Tamanho da Memória:" textFill="#f20c0c">
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
@@ -40,13 +40,13 @@
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="141.0" layoutY="371.0" text="Tempo de Criação dos Processos:" textFill="#f20c0c">
+            <Label layoutX="133.0" layoutY="371.0" text="Tempo de Criação dos Processos:" textFill="#f20c0c">
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
             </Label>
             <TextArea fx:id="txtLog" layoutX="337.0" layoutY="275.0" prefHeight="262.0" prefWidth="261.0" />
-            <Label layoutX="138.0" layoutY="423.0" text="Tempo de Duração dos Processos:" textFill="#f20c0c">
+            <Label layoutX="131.0" layoutY="423.0" text="Tempo de Duração dos Processos:" textFill="#f20c0c">
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
@@ -61,7 +61,7 @@
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
             </Button>
-            <Label fx:id="instante" layoutX="169.0" layoutY="33.0" prefHeight="37.0" prefWidth="46.0" text="0" textFill="#310de8">
+            <Label fx:id="instante" layoutX="169.0" layoutY="33.0" prefHeight="37.0" prefWidth="85.0" text="0" textFill="#310de8">
                <font>
                   <Font name="Comic Sans MS" size="26.0" />
                </font>
@@ -76,12 +76,12 @@
                   <Font name="Comic Sans MS" size="26.0" />
                </font>
             </Label>
-            <Label fx:id="media" layoutX="444.0" layoutY="51.0" prefHeight="37.0" prefWidth="46.0" text="0" textFill="#310de8">
+            <Label fx:id="media" layoutX="448.0" layoutY="51.0" prefHeight="37.0" prefWidth="105.0" text="0" textFill="#310de8">
                <font>
                   <Font name="Comic Sans MS" size="26.0" />
                </font>
             </Label>
-            <Label fx:id="cpu" layoutX="426.0" layoutY="14.0" prefHeight="37.0" prefWidth="46.0" text="0" textFill="#310de8">
+            <Label fx:id="cpu" layoutX="426.0" layoutY="14.0" prefHeight="37.0" prefWidth="123.0" text="0" textFill="#310de8">
                <font>
                   <Font name="Comic Sans MS" size="26.0" />
                </font>
@@ -156,7 +156,7 @@
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="qteProcessos" layoutX="37.0" layoutY="420.0" prefHeight="25.0" prefWidth="55.0" />
+            <TextField fx:id="qteProcessos" layoutX="37.0" layoutY="420.0" prefHeight="25.0" prefWidth="55.0" text="20" />
             <RadioButton fx:id="firstFit" layoutX="14.0" layoutY="306.0" mnemonicParsing="false" text="First Fit" textFill="#f20c0c">
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
