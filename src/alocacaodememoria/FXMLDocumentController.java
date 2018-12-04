@@ -1,6 +1,7 @@
 
 package alocacaodememoria;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,7 +12,11 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -27,6 +32,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 
 public class FXMLDocumentController implements Initializable {
@@ -87,41 +93,11 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private RadioButton worstFit;
-
-    @FXML
-    private TableView<Processo> tabProcessos;
-
-    @FXML
-    private TableColumn<Processo, Integer> colId;
-
-    @FXML
-    private TableColumn<Processo, Integer> colTamanho;
-
-    @FXML
-    private TableColumn<Processo, Float> colPorcent;
-
-    @FXML
-    private TableColumn<Processo, Integer> colDuracao;
-
-    @FXML
-    private TableColumn<Processo, Integer> colInstCriado;
-
-    @FXML
-    private TableColumn<Processo, Integer> colInstAlocado;
-
-    @FXML
-    private TableColumn<Processo, Integer> colInstConcluido;
-
-    @FXML
-    private TableColumn<Processo, Integer> colTEspera;
-
-    @FXML
-    private TableColumn<Processo, String> colStatus;
     
     ObservableList<Frame> framesLivres = FXCollections.observableArrayList();
     ObservableList<Frame> framesOcupados = FXCollections.observableArrayList();
     ObservableList<Processo> processos = FXCollections.observableArrayList();
-    ObservableList<Processo> procCriados = FXCollections.observableArrayList();
+    static ObservableList<Processo> procCriados = FXCollections.observableArrayList();
     ObservableList<Processo> procAlocados = FXCollections.observableArrayList();
     ObservableList<Processo> procFinalizados = FXCollections.observableArrayList();
 
@@ -137,27 +113,6 @@ public class FXMLDocumentController implements Initializable {
         bestFit.setToggleGroup(metodos);
         firstFit.setToggleGroup(metodos);
         worstFit.setToggleGroup(metodos);
-        
-        colId.setCellValueFactory(
-            new PropertyValueFactory<>("id"));
-        colTamanho.setCellValueFactory(
-            new PropertyValueFactory<>("tamanho"));
-        colStatus.setCellValueFactory(
-            new PropertyValueFactory<>("status"));
-        colPorcent.setCellValueFactory(
-            new PropertyValueFactory<>("porcentagem"));
-        colInstCriado.setCellValueFactory(
-            new PropertyValueFactory<>("instCriado"));
-        colInstAlocado.setCellValueFactory(
-            new PropertyValueFactory<>("instAlocado"));
-        colInstConcluido.setCellValueFactory(
-            new PropertyValueFactory<>("instConclusao"));
-        colDuracao.setCellValueFactory(
-            new PropertyValueFactory<>("tempoDuracao"));
-        colTEspera.setCellValueFactory(
-            new PropertyValueFactory<>("tempoEspera"));
-        
-        tabProcessos.setItems(procCriados);
     }
     
     public void logMsg(String msg){
@@ -302,8 +257,6 @@ public class FXMLDocumentController implements Initializable {
             p.desenho = null;
             p.instConclusao = t;
             p.tempoEspera = p.instConclusao - p.instCriado;
-            tabProcessos.refresh();
-            
             procFinalizados.add(p);
             procAlocados.remove(p);
             framesOcupados.remove(p.frame);
@@ -343,7 +296,6 @@ public class FXMLDocumentController implements Initializable {
                 p.posicaoFim = alocado.posicaoFim;
                 p.instAlocado = t;
                 p.status = "Executando";
-                tabProcessos.refresh();
                 procAlocados.add(p);
                 
                 desenhaProcesso(p);
@@ -358,7 +310,6 @@ public class FXMLDocumentController implements Initializable {
                 p.posicaoFim = frame.posicaoFim;
                 p.instAlocado = t;
                 p.status = "Executando";
-                tabProcessos.refresh();
                 procAlocados.add(p);
                 
                 desenhaProcesso(p);
@@ -391,7 +342,6 @@ public class FXMLDocumentController implements Initializable {
                     p.posicaoFim = alocado.posicaoFim;
                     p.instAlocado = t;
                     p.status = "Executando";
-                    tabProcessos.refresh();
                     procAlocados.add(p);
 
                     desenhaProcesso(p);
@@ -406,7 +356,6 @@ public class FXMLDocumentController implements Initializable {
                     p.posicaoFim = best.posicaoFim;
                     p.instAlocado = t;
                     p.status = "Executando";
-                    tabProcessos.refresh();
                     procAlocados.add(p);
 
                     desenhaProcesso(p);
@@ -460,7 +409,6 @@ public class FXMLDocumentController implements Initializable {
                 p.posicaoFim = alocado.posicaoFim;
                 p.instAlocado = t;
                 p.status = "Executando";
-                tabProcessos.refresh();
                 procAlocados.add(p);
                 
                 desenhaProcesso(p);
@@ -474,7 +422,6 @@ public class FXMLDocumentController implements Initializable {
                 p.posicaoFim = maior.posicaoFim;
                 p.instAlocado = t;
                 p.status = "Executando";
-                tabProcessos.refresh();
                 procAlocados.add(p);
                 
                 desenhaProcesso(p);
@@ -533,8 +480,18 @@ public class FXMLDocumentController implements Initializable {
         });
     }
     
+    void render_process_table() throws IOException {
+        Parent root;
+        root = FXMLLoader.load(getClass().getResource("TableProcess.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Tabela de processos");
+        stage.setResizable(false);
+        stage.setScene(new Scene(root, 684, 539));
+        stage.show();
+    }
+    
     @FXML
-    public int iniciar() {
+    public int iniciar() throws IOException {
         try{
             qtdProc = Integer.parseInt(qteProcessos.getText());
             memoria = Integer.parseInt(tamMem.getText());
@@ -566,6 +523,7 @@ public class FXMLDocumentController implements Initializable {
             logMsg("Valores inválidos. O 1º valor deve ser menor que o 2º valor");
             return -1;
         }else{
+            render_process_table();
             txtLog.clear();
             media.setText("0");
             memCPU = 0;
