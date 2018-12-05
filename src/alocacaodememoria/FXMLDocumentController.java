@@ -102,7 +102,7 @@ public class FXMLDocumentController implements Initializable {
     ObservableList<Processo> procFinalizados = FXCollections.observableArrayList();
 
     ToggleGroup metodos = new ToggleGroup();
-    int memoria, tam_SO, m1, m2, tc1, tc2, td1, td2, qtdProc;
+    int totMemoria, tam_SO, m1, m2, criac1, criac2, dur1, dur2, qtdProc;
     float memCPU = 0;
     Processo sistOp;
     String metodo;
@@ -137,7 +137,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     public void desenhaSO(){
-        sistOp.posicaoFim = (600 * tam_SO) / memoria;
+        sistOp.posicaoFim = (600 * tam_SO) / totMemoria;
         StackPane paneSO;
         paneSO = new StackPane();
         paneSO.setStyle("-fx-background-color: #ff0000; -fx-border-color: black;");
@@ -145,13 +145,13 @@ public class FXMLDocumentController implements Initializable {
         paneSO.setMinWidth(sistOp.posicaoFim);
         paneSO.setOpacity(0.7);
         Text id = new Text("SO");
-        id.setFont(Font.font("Comic Sans MS", sistOp.tamFisico/2));
+        id.setFont(Font.font("Comic Sans MS", sistOp.tamDesenho/2));
         id.setFill(Color.WHITE);
         paneSO.getChildren().add(id);
         
         Frame root = framesLivres.get(0);
-        Frame SO = new Frame(0, sistOp.posicaoFim, tam_SO, true);
-        Frame resto = new Frame(sistOp.posicaoFim, root.posicaoFim, memoria-tam_SO, false);
+        Frame SO = new Frame(0, sistOp.posicaoFim, tam_SO);
+        Frame resto = new Frame(sistOp.posicaoFim, root.posicaoFim, totMemoria-tam_SO);
         framesOcupados.add(SO);
         framesLivres.set(0,resto);
         sistOp.frame = SO;
@@ -167,11 +167,11 @@ public class FXMLDocumentController implements Initializable {
         paneProc = new StackPane();
         paneProc.setStyle("-fx-background-color: #0000ff; -fx-border-color:black");
         paneProc.setMinHeight(137);
-        paneProc.setMinWidth(p.tamFisico);
+        paneProc.setMinWidth(p.tamDesenho);
         paneProc.setOpacity(0.9);
         
         Text id = new Text(Integer.toString(p.id));
-        id.setFont(Font.font("Comic Sans MS", p.tamFisico/2));
+        id.setFont(Font.font("Comic Sans MS", p.tamDesenho/2));
         id.setFill(Color.WHITE);
         paneProc.getChildren().add(id);
         
@@ -196,7 +196,7 @@ public class FXMLDocumentController implements Initializable {
     public Frame getMenorTam(Frame f, Processo p){ //Captura o frame de menor tamanho - método Best Fit
         Frame menor = f;
         for (Frame frame : framesLivres) {
-            if(frame.tamanhoFisico < menor.tamanhoFisico && frame.tamanhoFisico >= p.tamFisico){
+            if(frame.tamanhoDesenho < menor.tamanhoDesenho && frame.tamanhoDesenho >= p.tamDesenho){
                 menor = frame;
             }
         }
@@ -218,7 +218,7 @@ public class FXMLDocumentController implements Initializable {
             Frame anterior = framesLivres.get(i-1);
             Frame atual = framesLivres.get(i);
             if(anterior.posicaoFim == atual.posicaoInicio){
-                Frame novo = new Frame(anterior.posicaoInicio, atual.posicaoFim, anterior.tamanho+atual.tamanho, false);
+                Frame novo = new Frame(anterior.posicaoInicio, atual.posicaoFim, anterior.tamanhoFisico+atual.tamanhoFisico);
                 framesLivres.remove(atual);
                 framesLivres.set(framesLivres.indexOf(anterior), novo);
                 i--;
@@ -279,15 +279,31 @@ public class FXMLDocumentController implements Initializable {
         },1000, 1000);
     }
     
+     public void gerarProcessos(){
+        int anterior = 0;
+        for(int i=0; i<qtdProc; i++){
+            String status = "Fila";
+            int tamFisico = (int) (Math.random() * (m2-m1) + m1);
+            int tc = (int) ((Math.random() * (criac2-criac1)) + criac1 ) + anterior;
+            anterior = tc;
+            int td = (int) (Math.random() * (dur2-dur1)) + dur1;
+            float porc = ( (float)tamFisico/(float)totMemoria) * 100;
+            int tamDesen = (600*tamFisico)/totMemoria;
+            Processo p = new Processo(i, tamFisico, tc, td, tamDesen, porc, status);
+            processos.add(p);
+            logMsg(" ID: "+p.id+"  Criação: "+p.instCriado);
+        }
+    }
+    
     public void firstFit(Processo p, int t){
         int i = 0, j = framesLivres.size();
         while(i < j){
             Frame frame = framesLivres.get(i);
-            if(frame.tamanho > p.tamanho){
-                p.tamFisico = (frame.tamanhoFisico*p.tamanho)/frame.tamanho;
+            if(frame.tamanhoFisico > p.tamanho){
+                p.tamDesenho = (frame.tamanhoDesenho*p.tamanho)/frame.tamanhoFisico;
                 int indice = framesLivres.indexOf(frame);
-                Frame alocado = new Frame(frame.posicaoInicio, frame.posicaoInicio+p.tamFisico, p.tamanho, true);
-                Frame resto = new Frame(alocado.posicaoFim, frame.posicaoFim, frame.tamanho-p.tamanho, false);
+                Frame alocado = new Frame(frame.posicaoInicio, frame.posicaoInicio+p.tamDesenho, p.tamanho);
+                Frame resto = new Frame(alocado.posicaoFim, frame.posicaoFim, frame.tamanhoFisico-p.tamanho);
                 p.frame = alocado;
                 framesOcupados.add(alocado);
                 framesLivres.set(indice, resto);
@@ -303,7 +319,7 @@ public class FXMLDocumentController implements Initializable {
                 atualizaCPU();
                 i = j;
             }
-            else if(frame.tamanho == p.tamanho){
+            else if(frame.tamanhoFisico == p.tamanho){
                 framesOcupados.add(frame);
                 framesLivres.remove(frame);
                 p.posicaoInicio = frame.posicaoInicio;
@@ -326,14 +342,14 @@ public class FXMLDocumentController implements Initializable {
         int i = 0, j = framesLivres.size();
         while(i < j) {
             Frame f = framesLivres.get(i);
-            if (f.tamanhoFisico >= p.tamFisico) {
+            if (f.tamanhoDesenho >= p.tamDesenho) {
                 best = f;
                 best = getMenorTam(best, p);
-                if (best.tamanho > p.tamanho) {
-                    p.tamFisico = (best.tamanhoFisico * p.tamanho) / best.tamanho;
+                if (best.tamanhoFisico > p.tamanho) {
+                    p.tamDesenho = (best.tamanhoDesenho * p.tamanho) / best.tamanhoFisico;
                     int indice = framesLivres.indexOf(best);
-                    Frame alocado = new Frame(best.posicaoInicio, best.posicaoInicio + p.tamFisico, p.tamanho, true);
-                    Frame resto = new Frame(alocado.posicaoFim, best.posicaoFim, best.tamanho - p.tamanho, false);
+                    Frame alocado = new Frame(best.posicaoInicio, best.posicaoInicio + p.tamDesenho, p.tamanho);
+                    Frame resto = new Frame(alocado.posicaoFim, best.posicaoFim, best.tamanhoFisico - p.tamanho);
                     p.frame = alocado;
                     framesOcupados.add(alocado);
                     framesLivres.set(indice, resto);
@@ -349,7 +365,7 @@ public class FXMLDocumentController implements Initializable {
                     atualizaCPU();
                     i = j;
                     
-                } else if (best.tamanho == p.tamanho) {
+                } else if (best.tamanhoFisico == p.tamanho) {
                     framesOcupados.add(best);
                     framesLivres.remove(best);
                     p.posicaoInicio = best.posicaoInicio;
@@ -376,7 +392,7 @@ public class FXMLDocumentController implements Initializable {
         int j = framesLivres.size();
         while(i < j){
             Frame f = framesLivres.get(i);
-            if(f.tamanhoFisico >= p.tamFisico){
+            if(f.tamanhoDesenho >= p.tamDesenho){
                 maior = f;
                 i = j;
             }
@@ -387,11 +403,11 @@ public class FXMLDocumentController implements Initializable {
             j = framesLivres.size();
             while(i < j){
                 Frame f = framesLivres.get(i);
-                p.tamFisico = (f.tamanhoFisico * p.tamanho) / f.tamanho;
-                if(f.tamanhoFisico > maior.tamanhoFisico && f.tamanhoFisico > p.tamFisico){
+                p.tamDesenho = (f.tamanhoDesenho * p.tamanho) / f.tamanhoFisico;
+                if(f.tamanhoDesenho > maior.tamanhoDesenho && f.tamanhoDesenho > p.tamDesenho){
                     maior = f;
                 }
-                else if(f.tamanhoFisico >= maior.tamanhoFisico && f.tamanhoFisico == p.tamFisico){
+                else if(f.tamanhoDesenho >= maior.tamanhoDesenho && f.tamanhoDesenho == p.tamDesenho){
                     maior = f;
                     igual = true;
                     i = j;
@@ -400,8 +416,8 @@ public class FXMLDocumentController implements Initializable {
             }
             if(!igual){
                 int indice = framesLivres.indexOf(maior);
-                Frame alocado = new Frame(maior.posicaoInicio, maior.posicaoInicio+p.tamFisico, p.tamanho, true);
-                Frame resto = new Frame(alocado.posicaoFim, maior.posicaoFim, maior.tamanho-p.tamanho, false);
+                Frame alocado = new Frame(maior.posicaoInicio, maior.posicaoInicio+p.tamDesenho, p.tamanho);
+                Frame resto = new Frame(alocado.posicaoFim, maior.posicaoFim, maior.tamanhoFisico-p.tamanho);
                 p.frame = alocado;
                 framesOcupados.add(alocado);
                 framesLivres.set(indice, resto);
@@ -429,22 +445,6 @@ public class FXMLDocumentController implements Initializable {
                 atualizaCPU();
             }
         }   
-    }
-    
-    public void gerarProcessos(){
-        int anterior = 0;
-        for(int i=0; i<qtdProc; i++){
-            String status = "Fila";
-            int tamanho = (int) (Math.random() * (m2-m1) + m1);
-            int tc = (int) ((Math.random() * (tc2-tc1)) + tc1 ) + anterior;
-            anterior = tc;
-            int td = (int) (Math.random() * (td2-td1)) + td1;
-            float porc = ( (float)tamanho/(float)memoria) * 100;
-            int tamFisico = (631*tamanho)/memoria;
-            Processo p = new Processo(i, tamanho, tc, td, tamFisico, porc, status);
-            processos.add(p);
-            logMsg(" ID: "+p.id+"  Criação: "+p.instCriado);
-        }
     }
     
     public void rotina(){
@@ -494,14 +494,14 @@ public class FXMLDocumentController implements Initializable {
     public int iniciar() throws IOException {
         try{
             qtdProc = Integer.parseInt(qteProcessos.getText());
-            memoria = Integer.parseInt(tamMem.getText());
+            totMemoria = Integer.parseInt(tamMem.getText());
             tam_SO = Integer.parseInt(tamSO.getText());
             m1 = Integer.parseInt(tamProc1.getText());
             m2 = Integer.parseInt(tamProc2.getText());
-            tc1 = Integer.parseInt(tCriacao1.getText());
-            tc2 = Integer.parseInt(tCriacao2.getText());
-            td1 = Integer.parseInt(tDuracao1.getText());
-            td2 = Integer.parseInt(tDuracao2.getText());
+            criac1 = Integer.parseInt(tCriacao1.getText());
+            criac2 = Integer.parseInt(tCriacao2.getText());
+            dur1 = Integer.parseInt(tDuracao1.getText());
+            dur2 = Integer.parseInt(tDuracao2.getText());
             RadioButton selected = (RadioButton) metodos.getSelectedToggle();
             metodo = selected.getText();
         }
@@ -509,17 +509,16 @@ public class FXMLDocumentController implements Initializable {
             logMsg("Preencha todos os campos e apenas com números!");
             return -1;
         }
-
-        if(tam_SO >= memoria){
+        if(tam_SO >= totMemoria){
             logMsg("SO deve ser menor que a memória");
             return -1;
-        }else if(m2 > memoria){
+        }else if(m2 > totMemoria){
             logMsg("M2 não pode ser maior que a memória");
             return -1;
         }else if(qtdProc > 30){
             logMsg("Máximo de processos é 30");
             return -1;
-        }else if(m1 >= m2 || tc1 >= tc2 || td1 >= td2){
+        }else if(m1 >= m2 || criac1 >= criac2 || dur1 >= dur2){
             logMsg("Valores inválidos. O 1º valor deve ser menor que o 2º valor");
             return -1;
         }else{
@@ -535,16 +534,16 @@ public class FXMLDocumentController implements Initializable {
             procFinalizados.clear();
             framesLivres.clear();
             framesOcupados.clear();
-            framesLivres.add(new Frame(0,600, memoria, false));
+            framesLivres.add(new Frame(0,600, totMemoria));
             iniciarSimulacao.setDisable(true);
             logMsg(metodo);
-            int tamFisico = (600 * tam_SO)/memoria;
-            float porc = ( (float)tam_SO/(float)memoria) * 100;
+            int tamDesenho = (600 * tam_SO)/totMemoria;
+            float porc = ((float)tam_SO/(float)totMemoria) * 100;
             if(sistOp != null){
                 sistOp.desenho.setVisible(false);
                 paneMem.getChildren().remove(sistOp.desenho);
             }
-            sistOp = new Processo(99, tam_SO, 0, 0, tamFisico, porc, "infinito");
+            sistOp = new Processo(99, tam_SO, 0, 0, tamDesenho, porc, "infinito");
             desenhaSO();
             memCPU += sistOp.porcentagem;
             atualizaCPU();

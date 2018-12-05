@@ -15,14 +15,14 @@
     <children>
       <Pane fx:id="paneMem" prefHeight="539.0" prefWidth="600.0">
          <children>
-            <TextField fx:id="tamMem" layoutX="131.0" layoutY="302.0" prefHeight="25.0" prefWidth="55.0" text="4000" />
-            <TextField fx:id="tamSO" layoutX="261.0" layoutY="302.0" prefHeight="25.0" prefWidth="55.0" text="500" />
-            <TextField fx:id="tamProc1" layoutX="193.0" layoutY="346.0" prefHeight="25.0" prefWidth="55.0" text="50" />
-            <TextField fx:id="tamProc2" layoutX="251.0" layoutY="346.0" prefHeight="25.0" prefWidth="55.0" text="400" />
-            <TextField fx:id="tCriacao1" layoutX="193.0" layoutY="393.0" prefHeight="25.0" prefWidth="55.0" text="10" />
-            <TextField fx:id="tCriacao2" layoutX="251.0" layoutY="393.0" prefHeight="25.0" prefWidth="55.0" text="30" />
+            <TextField fx:id="tamMem" layoutX="131.0" layoutY="302.0" prefHeight="25.0" prefWidth="55.0" text="4500" />
+            <TextField fx:id="tamSO" layoutX="261.0" layoutY="302.0" prefHeight="25.0" prefWidth="55.0" text="600" />
+            <TextField fx:id="tamProc1" layoutX="193.0" layoutY="346.0" prefHeight="25.0" prefWidth="55.0" text="70" />
+            <TextField fx:id="tamProc2" layoutX="251.0" layoutY="346.0" prefHeight="25.0" prefWidth="55.0" text="550" />
+            <TextField fx:id="tCriacao1" layoutX="193.0" layoutY="393.0" prefHeight="25.0" prefWidth="55.0" text="3" />
+            <TextField fx:id="tCriacao2" layoutX="251.0" layoutY="393.0" prefHeight="25.0" prefWidth="55.0" text="11" />
             <TextField fx:id="tDuracao1" layoutX="193.0" layoutY="442.0" prefHeight="25.0" prefWidth="55.0" text="10" />
-            <TextField fx:id="tDuracao2" layoutX="251.0" layoutY="442.0" prefHeight="25.0" prefWidth="55.0" text="100" />
+            <TextField fx:id="tDuracao2" layoutX="251.0" layoutY="442.0" prefHeight="25.0" prefWidth="55.0" text="50" />
             <Label layoutX="94.0" layoutY="282.0" text="Tamanho da Memória:" textFill="#f20c0c">
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
@@ -154,8 +154,8 @@
                   <Font name="Comic Sans MS" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="qteProcessos" layoutX="37.0" layoutY="420.0" prefHeight="25.0" prefWidth="55.0" text="20" />
-            <RadioButton fx:id="firstFit" layoutX="14.0" layoutY="306.0" mnemonicParsing="false" text="First Fit" textFill="#f20c0c">
+            <TextField fx:id="qteProcessos" layoutX="37.0" layoutY="420.0" prefHeight="25.0" prefWidth="55.0" text="15" />
+            <RadioButton fx:id="firstFit" layoutX="14.0" layoutY="306.0" mnemonicParsing="false" selected="true" text="First Fit" textFill="#f20c0c">
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
                </font>

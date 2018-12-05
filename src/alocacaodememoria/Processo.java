@@ -9,19 +9,19 @@ import javafx.scene.layout.StackPane;
 
 public class Processo {
     int id, tamanho, instCriado, tempoDuracao, instAlocado, instConclusao;
-    int posicaoInicio = 0, posicaoFim = 0, tamFisico;
+    int posicaoInicio = 0, posicaoFim = 0, tamDesenho;
     int tempoEspera = (instConclusao - instCriado);
     float porcentagem = 0;
     String status;
     Frame frame;
     StackPane desenho;
 
-    public Processo(int id, int tamanho, int criado, int duracao, int tamFisico, float porcentagem, String status) {
+    public Processo(int id, int tamanho, int criado, int duracao, int tamDesenho, float porcentagem, String status) {
         this.id = id;
         this.tamanho = tamanho;
         this.instCriado = criado;
         this.tempoDuracao = duracao;
-        this.tamFisico = tamFisico;
+        this.tamDesenho = tamDesenho;
         this.porcentagem = porcentagem;
         this.status = status;
     }

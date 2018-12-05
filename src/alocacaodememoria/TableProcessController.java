@@ -2,6 +2,8 @@ package alocacaodememoria;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -62,6 +64,17 @@ public class TableProcessController implements Initializable {
             new PropertyValueFactory<>("tempoEspera"));
         
         tabProcessos.setItems(FXMLDocumentController.procCriados);
+        
+        refresh_table();
     }
     
+    public void refresh_table(){
+        Timer tempo = new Timer();
+            tempo.scheduleAtFixedRate(new TimerTask(){
+                @Override
+                public void run(){
+                    tabProcessos.refresh();
+                }
+            },1000, 1000);
+    }
 }
