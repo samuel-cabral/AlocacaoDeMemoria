@@ -14,18 +14,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -143,7 +139,7 @@ public class FXMLDocumentController implements Initializable {
         paneSO.setStyle("-fx-background-color: #ff0000; -fx-border-color: black;");
         paneSO.setMinHeight(137);
         paneSO.setMinWidth(sistOp.posicaoFim);
-        paneSO.setOpacity(0.9);
+        paneSO.setOpacity(0.7);
         paneSO.setLayoutY(0.0);
         Text id = new Text("SO");
         id.setFont(Font.font("Comic Sans MS", sistOp.tamDesenho/2));
@@ -169,7 +165,7 @@ public class FXMLDocumentController implements Initializable {
         paneProc.setStyle("-fx-background-color: #0000ff; -fx-border-color:black");
         paneProc.setMinHeight(137);
         paneProc.setMinWidth(p.tamDesenho);
-        paneProc.setOpacity(0.9);
+        paneProc.setOpacity(0.7);
         paneProc.setLayoutY(0.0);
         Text id = new Text(Integer.toString(p.id));
         id.setFont(Font.font("Comic Sans MS", p.tamDesenho/2));
@@ -304,7 +300,7 @@ public class FXMLDocumentController implements Initializable {
             if(frame.tamanhoFisico > p.tamanho){
                 p.tamDesenho = (frame.tamanhoDesenho*p.tamanho)/frame.tamanhoFisico;
                 int indice = framesLivres.indexOf(frame);
-                Frame alocado = new Frame(frame.posicaoInicio, frame.posicaoInicio+p.tamDesenho, p.tamanho);
+                Frame alocado = new Frame(frame.posicaoInicio, frame.posicaoInicio + p.tamDesenho, p.tamanho);
                 Frame resto = new Frame(alocado.posicaoFim, frame.posicaoFim, frame.tamanhoFisico-p.tamanho);
                 p.frame = alocado;
                 framesOcupados.add(alocado);
@@ -312,13 +308,6 @@ public class FXMLDocumentController implements Initializable {
                 
                 p.posicaoInicio = alocado.posicaoInicio;
                 p.posicaoFim = alocado.posicaoFim;
-                p.instAlocado = t;
-                p.status = "Executando";
-                procAlocados.add(p);
-                
-                desenhaProcesso(p);
-                memCPU += p.porcentagem;
-                atualizaCPU();
                 i = j;
             }
             else if(frame.tamanhoFisico == p.tamanho){
@@ -326,15 +315,15 @@ public class FXMLDocumentController implements Initializable {
                 framesLivres.remove(frame);
                 p.posicaoInicio = frame.posicaoInicio;
                 p.posicaoFim = frame.posicaoFim;
-                p.instAlocado = t;
-                p.status = "Executando";
-                procAlocados.add(p);
-                
-                desenhaProcesso(p);
-                memCPU += p.porcentagem;
-                atualizaCPU();
                 i = j;
             }
+            p.instAlocado = t;
+            p.status = "Executando";
+            procAlocados.add(p);
+
+            desenhaProcesso(p);
+            memCPU += p.porcentagem;
+            atualizaCPU();
             i++;
         }
     }
@@ -365,7 +354,7 @@ public class FXMLDocumentController implements Initializable {
                     desenhaProcesso(p);
                     memCPU += p.porcentagem;
                     atualizaCPU();
-                    i = j;
+
                     
                 } else if (best.tamanhoFisico == p.tamanho) {
                     framesOcupados.add(best);
