@@ -16,7 +16,8 @@ public class AlocacaoDeMemoria extends Application {
         
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.setTitle("Gerenciamento de memória");
+        stage.setTitle("Alocação do Leão");
+        stage.setX(100);
         stage.show();
     }
 

@@ -137,13 +137,14 @@ public class FXMLDocumentController implements Initializable {
     }
     
     public void desenhaSO(){
-        sistOp.posicaoFim = (600 * tam_SO) / totMemoria;
+        sistOp.posicaoFim = (650 * tam_SO) / totMemoria;
         StackPane paneSO;
         paneSO = new StackPane();
         paneSO.setStyle("-fx-background-color: #ff0000; -fx-border-color: black;");
         paneSO.setMinHeight(137);
         paneSO.setMinWidth(sistOp.posicaoFim);
-        paneSO.setOpacity(0.7);
+        paneSO.setOpacity(0.9);
+        paneSO.setLayoutY(0.0);
         Text id = new Text("SO");
         id.setFont(Font.font("Comic Sans MS", sistOp.tamDesenho/2));
         id.setFill(Color.WHITE);
@@ -158,7 +159,7 @@ public class FXMLDocumentController implements Initializable {
         sistOp.desenho = paneSO;
         Platform.runLater(()->{
             paneMem.getChildren().add(paneSO);
-            paneSO.relocate(sistOp.posicaoInicio, 101);
+            paneSO.relocate(sistOp.posicaoInicio, 0);
         });
     }
     
@@ -169,7 +170,7 @@ public class FXMLDocumentController implements Initializable {
         paneProc.setMinHeight(137);
         paneProc.setMinWidth(p.tamDesenho);
         paneProc.setOpacity(0.9);
-        
+        paneProc.setLayoutY(0.0);
         Text id = new Text(Integer.toString(p.id));
         id.setFont(Font.font("Comic Sans MS", p.tamDesenho/2));
         id.setFill(Color.WHITE);
@@ -178,7 +179,7 @@ public class FXMLDocumentController implements Initializable {
         p.desenho = paneProc;
         Platform.runLater(()->{
             paneMem.getChildren().add(paneProc);
-            paneProc.relocate(p.posicaoInicio, 101);
+            paneProc.relocate(p.posicaoInicio, 0);
         });
     }
     
@@ -283,15 +284,16 @@ public class FXMLDocumentController implements Initializable {
         int anterior = 0;
         for(int i=0; i<qtdProc; i++){
             String status = "Fila";
-            int tamFisico = (int) (Math.random() * (m2-m1) + m1);
-            int tc = (int) ((Math.random() * (criac2-criac1)) + criac1 ) + anterior;
-            anterior = tc;
-            int td = (int) (Math.random() * (dur2-dur1)) + dur1;
-            float porc = ( (float)tamFisico/(float)totMemoria) * 100;
-            int tamDesen = (600*tamFisico)/totMemoria;
+            int tamFisico = (int)(Math.random() * (m2-m1) + m1);
+            int tc = (int)((Math.random() * (criac2-criac1)) + criac1 ) + anterior;
+            int td = (int)(Math.random() * (dur2-dur1)) + dur1;
+            int tamDesen =(650 * tamFisico) / totMemoria;
+            float porc = 100*((float)tamFisico/(float)totMemoria);
+            
             Processo p = new Processo(i, tamFisico, tc, td, tamDesen, porc, status);
             processos.add(p);
-            logMsg(" ID: "+p.id+"  Criação: "+p.instCriado);
+            logMsg(" ID: "+p.id+" Criação: "+p.instCriado);
+            anterior = tc;
         }
     }
     
@@ -487,7 +489,22 @@ public class FXMLDocumentController implements Initializable {
         stage.setTitle("Tabela de processos");
         stage.setResizable(false);
         stage.setScene(new Scene(root, 684, 539));
+        stage.setX(500);
         stage.show();
+    }
+    
+    void clean_stage(){
+        txtLog.clear();
+        media.setText("0");
+        memCPU = 0;
+        atualizaCPU();
+        processos.clear();
+        procCriados.clear();
+        procAlocados.clear();
+        procFinalizados.clear();
+        framesLivres.clear();
+        framesOcupados.clear();
+        framesLivres.add(new Frame(0,650, totMemoria));
     }
     
     @FXML
@@ -523,21 +540,10 @@ public class FXMLDocumentController implements Initializable {
             return -1;
         }else{
             render_process_table();
-            txtLog.clear();
-            media.setText("0");
-            memCPU = 0;
-            atualizaCPU();
-            //ultimo = 0;
-            processos.clear();
-            procCriados.clear();
-            procAlocados.clear();
-            procFinalizados.clear();
-            framesLivres.clear();
-            framesOcupados.clear();
-            framesLivres.add(new Frame(0,600, totMemoria));
+            clean_stage();
             iniciarSimulacao.setDisable(true);
             logMsg(metodo);
-            int tamDesenho = (600 * tam_SO)/totMemoria;
+            int tamDesenho = (650 * tam_SO)/totMemoria;
             float porc = ((float)tam_SO/(float)totMemoria) * 100;
             if(sistOp != null){
                 sistOp.desenho.setVisible(false);
